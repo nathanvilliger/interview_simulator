@@ -8,3 +8,12 @@ API key online and to have stored that API key in a file called 'chatgpt_api_key
 in the same directory as this script. See the [ChatGPT API documentation](https://platform.openai.com/docs/quickstart?context=python) for more information about how to set up an API key.
 
 Good luck!
+
+## Usage
+
+Simply run `python simulate.py` from the command line to enter the simulator.
+
+
+To dos:
+
+- Add more to the lists of predefined questions.
