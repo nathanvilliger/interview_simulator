@@ -17,3 +17,7 @@ Simply run `python simulate.py` from the command line to enter the simulator.
 To dos:
 
 - Add more to the lists of predefined questions.
+
+- Elaborate further on the ChatGPT setup.
+
+- Add options to get $x$ randomly drawn or generated questions instead of just one at a time.
