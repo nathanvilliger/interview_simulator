@@ -7,13 +7,14 @@ its API.
 '''
 from numpy.random import uniform, choice
 from sys import exit
+from subprocess import run
 from openai import OpenAI
 
 with open('chatgpt_api_key.txt') as f:
     api_key = f.readline().strip('\n')
 
 print('api key is', api_key)
-print('\n' * 3)
+print('\n')
 client = OpenAI(api_key=api_key)
 model = 'gpt-3.5-turbo'
 
@@ -53,12 +54,51 @@ def serve_question(qtype):
 
 technical_questions = [
     'What is a p value?',
-    'Why do ML models overfit? How can it be prevented?'
+    'Why do ML models overfit? How can it be prevented?',
+    'What was your PhD research about?',
+    'Tell me about a time you used analytics in a previous project',
+    'What are the assumptions required for a linear regression?',
+    'How do you handle a dataset missing several values?',
+    'How do you explain technical aspects of your results to stakeholders with '\
+    'a non-technical background?',
+    'What are the feature selection methods used to select the right variables for '\
+    'a machine learning model?',
+    'List the different types of relationships in SQL',
+    'What is dimensionality reduction? Why would you do it?',
+    'What is the goal of A/B Testing?',
+    'Explain confidence intervals',
+    'How do you manage an unbalanced dataset when training ML models?',
+    'How do you evaluate the performance of a clustering model, where there are '\
+    'no known labels?',
+    'There are four people in an elevator and four floors in a building. What is '\
+    'the probability that each person gets off on a different floor?'
 ]
 
 behavioral_questions = [
     'What is your biggest strength?',
-    'What is your biggest weakness?'
+    'What is your biggest weakness?',
+    'Tell me about a time when you had to explain a complex data concept ' \
+    'to someone without a technical background. How did you ensure they understood?',
+    'Describe a project where you had to work with a difficult team member. '\
+    'How did you handle the situation?',
+    'Can you share an example of a time when you had to work under a tight deadline? '\
+    'How did you manage your tasks and deliver on time?',
+    'Have you ever made a significant mistake in your analysis? How did you handle it '\
+    'and what did you learn from it?',
+    'How do you stay updated with the latest trends and advancements in data science?',
+    'Can you tell us about a time when you had to work on a project with unclear or '\
+    'constantly changing requirements? How did you adapt?',
+    'Tell me about a time when you worked as part of a team to successfully execute a project.',
+    'What is a project that you are most proud of?',
+    'Tell me about a time you failed.',
+    'Tell me about a time when you demonstrated leadership.',
+    'Have you ever had to make an unpopular decision? How did you handle it?',
+    'Describe a time when you were under a lot of pressure at work. How did you react?',
+    'Tell me about a mistake you have made. How did you handle it?',
+    'Explain a situation where you used data or logic to make a recommendation.',
+    'Describe a time when you had to deliver bad news. How did you do it?',
+    'Share an example of a time when you failed. What did you learn from the experience?',
+    'Tell me about the last time your workday ended before you were able to get everything done.'
 ]
 
 qstr = 'What type of question would you like? \n' \
@@ -77,8 +117,8 @@ divstr = '\n' * 3 + '*' * 30 + '\n' * 3
 
 while True:
     qtype = input(qstr)
-    print('\n' * 3)
     q = serve_question(qtype)
+    run('clear')
     print(q)
     print(divstr)
 
