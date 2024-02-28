@@ -5,7 +5,8 @@ behavioral questions.
 Also include options to get questions and technical answers from ChatGPT using
 its API.
 '''
-from numpy.random import uniform, choice
+from numpy.random import uniform
+from random import shuffle
 from sys import exit
 from subprocess import run
 from openai import OpenAI
@@ -34,14 +35,14 @@ def serve_question(qtype):
     Return the question to be printed out.
     '''
     if qtype == 't':
-        q = choice(technical_questions)
+        q = technical_questions.pop()
     elif qtype == 'b':
-        q = choice(behavioral_questions)
+        q = behavioral_questions.pop()
     elif qtype == 'q':
         if uniform() < 0.5:
-            q = choice(technical_questions)
+            q = technical_questions.pop()
         else:
-            q = choice(behavioral_questions)
+            q = behavioral_questions.pop()
     elif qtype == 'gt':
         q = prompt_gpt('What is a common technical question during data science job interviews? Give me just the question and no extra text.')
     elif qtype == 'gb':
@@ -56,14 +57,14 @@ technical_questions = [
     'What is a p value?',
     'Why do ML models overfit? How can it be prevented?',
     'What was your PhD research about?',
-    'Tell me about a time you used analytics in a previous project',
+    'Tell me about a time you used analytics in a previous project.',
     'What are the assumptions required for a linear regression?',
     'How do you handle a dataset missing several values?',
     'How do you explain technical aspects of your results to stakeholders with '\
     'a non-technical background?',
     'What are the feature selection methods used to select the right variables for '\
     'a machine learning model?',
-    'List the different types of relationships in SQL',
+    'List the different types of relationships between tables in SQL.',
     'What is dimensionality reduction? Why would you do it?',
     'What is the goal of A/B Testing?',
     'Explain confidence intervals',
@@ -113,8 +114,10 @@ nextprompt = 'What would you like to do next? \n' \
 'q -> get another question \n' \
 'any other key -> exit \n'
 
-divstr = '\n' * 3 + '*' * 30 + '\n' * 3
+divstr = '\n' + '*' * 30 + '\n'
 
+shuffle(technical_questions)
+shuffle(behavioral_questions)
 while True:
     qtype = input(qstr)
     q = serve_question(qtype)
@@ -123,7 +126,6 @@ while True:
     print(divstr)
 
     next_step = input(nextprompt)
-    print('\n')
     if next_step == 'a':
         print(divstr)
         print(prompt_gpt('Provide a sample answer to the following question: ' + q))
