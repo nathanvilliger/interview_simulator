@@ -9,7 +9,11 @@ Good luck!
 
 ## Usage
 
-Simply run `python simulate.py` from the command line to enter the simulator.
+Simply run `python simulate.py` from the command line to enter the simulator. The application provides for two basic use patterns:
+
+- Single questions at a time, either drawn from the predefined lists of questions or provided by ChatGPT. I recommend drawing from the predefined lists for this use case since ChatGPT may repeat itself when given the same question prompt over and over.  
+
+- Several questions in a row provided in one go by ChatGPT. The code is currently written to ask for a list of five questions at a time in this mode, but that number could easily be changed by changing the prompts in the calls to `prompt_gpt()` within the `serve_question()` function (specifically the calls where `return_list=True`).
 
 ## ChatGPT setup
 

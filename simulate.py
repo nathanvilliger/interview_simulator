@@ -19,36 +19,68 @@ print('\n')
 client = OpenAI(api_key=api_key)
 model = 'gpt-3.5-turbo'
 
-def prompt_gpt(question):
+def prompt_gpt(question, return_list=False):
     '''
     Thin wrapper around the OpenAI completions.create() function.
-    Pass the prompt <question>.
-    Return the text of the response.
+    Pass the prompt <question> to ChatGPT. 
+    <return_list> (T/F) signifies whether or not the user requested multiple questions from ChatGPT.
+
+    Return the single question or list of questions. 
+    
+    Note: The formatting of lists of questions from ChatGPT can be inconsistent, but the list prompts used here *usually* generate responses like the following:
+    "['question 1?', \n'question 2?', \n'question 3', ...]"
+    Replacing newlines with empty strings and reading in the entire string using eval() works when the response is in 
+    this format and gives the desired list of questions.
     '''
     completion = client.chat.completions.create(model=model, messages=[{'role':'user', 'content':question}])
     response = completion.choices[0].message.content
+    if return_list:
+        try:
+            response = eval(response.replace('\n', ''))
+        except SyntaxError:
+            print('\nError - Poor formatting from ChatGPT. Please try again. \n')
+            response = None
+
     return response
 
 def serve_question(qtype):
     '''
-    Generate a question. <qtype> will be fed in by the user.
-    Return the question to be printed out.
+    Generate a question. <qtype> will be fed in by the user. 
+    Return the question or list of questions to be printed out.
     '''
     if qtype == 't':
-        q = technical_questions.pop()
-    elif qtype == 'b':
-        q = behavioral_questions.pop()
-    elif qtype == 'q':
-        if uniform() < 0.5:
+        try:
             q = technical_questions.pop()
-        else:
+        except IndexError:
+            print('\nNo more questions of this type. Please try again or quit. \n')
+            q = None
+    elif qtype == 'b':
+        try:
             q = behavioral_questions.pop()
+        except IndexError:
+            print('\nNo more questions of this type. Please try again or quit. \n')
+            q = None
+    elif qtype == 'q':
+        try:
+            if uniform() < 0.5:
+                q = technical_questions.pop()
+            else:
+                q = behavioral_questions.pop()
+        except IndexError:
+            print('\nNo more questions of this type. Please try again or quit. \n')
+            q = None
     elif qtype == 'gt':
         q = prompt_gpt('What is a common technical question during data science job interviews? Give me just the question and no extra text.')
     elif qtype == 'gb':
         q = prompt_gpt('What is a common behavioral question during job interviews? Give me just the question and no extra text.')
+    elif qtype == 'gml':
+        q = prompt_gpt('What are five common machine learning job interview questions? Return the questions in a python list with no additional text or formatting.', return_list=True)
+    elif qtype == 'gstat':
+        q = prompt_gpt('What are five common job interview questions about statistics and probability? Return the questions in a python list with no additional text or formatting.', return_list=True) 
+    elif qtype == 'gcase':
+        q = prompt_gpt('What are five common case study questions during data science job interviews? Return the questions in a python list with no additional text or formatting.', return_list=True)
     else:
-        print('Not a valid choice. \nExiting now. \n')
+        print('Exiting now. \n')
         exit()
 
     return q
@@ -107,7 +139,11 @@ qstr = 'What type of question would you like? \n' \
 'b -> behavioral question \n' \
 'q -> random choice between list of technical and behavioral questions \n' \
 'gt -> request a common DS interview question from ChatGPT \n'\
-'gb -> request a common behavioral question from ChatGPT \n'
+'gb -> request a common behavioral question from ChatGPT \n'\
+'gml -> request five common ML interview questions from ChatGPT \n'\
+'gstat -> request five common statistics and probability interview questions from ChatGPT \n'\
+'gcase -> request five common DS interview case study questions from ChatGPT \n'\
+'any other key -> exit the simulator \n'
 
 nextprompt = 'What would you like to do next? \n' \
 'a -> request a sample answer from ChatGPT \n' \
@@ -121,21 +157,37 @@ shuffle(behavioral_questions)
 while True:
     qtype = input(qstr)
     q = serve_question(qtype)
-    run('clear')
-    print(q)
-    print(divstr)
+    if q is None:
+        # list of questions from ChatGPT was poorly formatted
+        continue
+    elif type(q) is list:
+        # list of questions from ChatGPT was good
+        for i, question in enumerate(q):
+            run('clear')
+            print(f'{i+1}. {question}')
+            print(divstr)
+            request_answer = input('Would you like to request a sample answer from ChatGPT? y/n \n')
+            if request_answer == 'y':
+                print('\n')
+                print(prompt_gpt('Provide a sample answer to the following question: ' + question))
+                _ = input('\nPress any key to continue. ')
+    else:
+        # must have requested a single question from predefined lists or ChatGPT
+        run('clear')
+        print(q)
+        print(divstr)
 
-    next_step = input(nextprompt)
-    if next_step == 'a':
-        print(divstr)
-        print(prompt_gpt('Provide a sample answer to the following question: ' + q))
-        print(divstr)
-        new_next = input('Would you like another question? y/n \n')
-        if new_next != 'y':
+        next_step = input(nextprompt)
+        if next_step == 'a':
+            print(divstr)
+            print(prompt_gpt('Provide a sample answer to the following question: ' + q))
+            print(divstr)
+            new_next = input('Would you like another question? y/n \n')
+            if new_next != 'y':
+                print('Goodbye and good luck.')
+                exit()
+        elif next_step != 'q':
             print('Goodbye and good luck.')
             exit()
-    elif next_step != 'q':
-        print('Goodbye and good luck.')
-        exit()
-    else:
-        print(divstr)
+        else:
+            print(divstr)
