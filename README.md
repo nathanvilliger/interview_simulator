@@ -29,4 +29,10 @@ There's some quick setup that needs to be done before you can run the simulator 
 
 ## Adapting for other jobs
 
-I've written this simulator to help me prepare for data science interviews, but it could easily be modified to prepare you for interviews in any other field. Simply replace the predefined technical questions in the list `technical_questions` with questions that are relevant to your field and replace 'data science' with your job field in the prompt sent to ChatGPT by the `serve_question()` function.
+I've written this simulator to help me prepare for data science interviews, but it could easily be modified to prepare you for interviews in any other field. 
+
+- Replace the predefined technical questions in the list `technical_questions` with questions that are relevant to your field.
+
+- Replace 'data science' with your job field in the prompt sent to ChatGPT by the `serve_question()` function when requesting a single technical interview question (when `qtype == 'gt'` in the function).
+
+- Replace the requests for lists of machine learning, stats/probability, and data science case study questions in the `serve_question()` function with requests for questions relevant to your field. Update the input codes and description in `qstr` as desired, making sure to update the input codes within `serve_question()` to match.
