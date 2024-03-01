@@ -43,32 +43,30 @@ def prompt_gpt(question, return_list=False):
 
     return response
 
+def pop_q(qlist):
+    '''
+    Simple function to pop a question from the predefined list of questions <qlist>, or return None if all questions
+    have already been popped and list is empty.
+    '''
+    try:
+        q = qlist.pop()
+    except IndexError:
+        print('\nNo more questions of this type. Please try again or quit. \n')
+        q = None
+
+    return q
+
 def serve_question(qtype):
     '''
     Generate a question. <qtype> will be fed in by the user. 
     Return the question or list of questions to be printed out.
     '''
     if qtype == 't':
-        try:
-            q = technical_questions.pop()
-        except IndexError:
-            print('\nNo more questions of this type. Please try again or quit. \n')
-            q = None
+        q = pop_q(technical_questions)
     elif qtype == 'b':
-        try:
-            q = behavioral_questions.pop()
-        except IndexError:
-            print('\nNo more questions of this type. Please try again or quit. \n')
-            q = None
+        q = pop_q(behavioral_questions)
     elif qtype == 'q':
-        try:
-            if uniform() < 0.5:
-                q = technical_questions.pop()
-            else:
-                q = behavioral_questions.pop()
-        except IndexError:
-            print('\nNo more questions of this type. Please try again or quit. \n')
-            q = None
+        q = pop_q(technical_questions) if uniform() < 0.5 else pop_q(behavioral_questions)
     elif qtype == 'gt':
         q = prompt_gpt('What is a common technical question during data science job interviews? Give me just the question and no extra text.')
     elif qtype == 'gb':
