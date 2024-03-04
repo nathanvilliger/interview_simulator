@@ -1,7 +1,7 @@
 # Job interview simulator
 
 Use `simulate.py` to simulate data science job interviews from the command line.
-The script serves up behavioral and technical questions from predefined lists
+The script serves up behavioral, technical, and resume questions from predefined lists
 as requested by the user. It also includes the option to ask ChatGPT for sample
 questions and answers! ChatGPT functionality requires a little setup; see below for details.
 
@@ -14,6 +14,8 @@ Simply run `python simulate.py` from the command line to enter the simulator. Th
 - Single questions at a time, either drawn from the predefined lists of questions or provided by ChatGPT. I recommend drawing from the predefined lists for this use case since ChatGPT may repeat itself when given the same question prompt over and over.  
 
 - Several questions in a row provided in one go by ChatGPT. The code is currently written to ask for a list of five questions at a time in this mode, but that number could easily be changed by changing the prompts in the calls to `prompt_gpt()` within the `serve_question()` function (specifically the calls where `return_list=True`).
+
+Note that the resume questions interrogate bullet points from my resume. You'll want to change those to make them relevant to you!
 
 ## ChatGPT setup
 

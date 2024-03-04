@@ -5,7 +5,7 @@ behavioral questions.
 Also include options to get questions and technical answers from ChatGPT using
 its API.
 '''
-from numpy.random import uniform
+from numpy.random import uniform, choice
 from random import shuffle
 from sys import exit
 from subprocess import run
@@ -65,8 +65,11 @@ def serve_question(qtype):
         q = pop_q(technical_questions)
     elif qtype == 'b':
         q = pop_q(behavioral_questions)
+    elif qtype == 'res':
+        q = pop_q(resume_questions)
     elif qtype == 'q':
-        q = pop_q(technical_questions) if uniform() < 0.5 else pop_q(behavioral_questions)
+        pop_from = choice(['technical', 'behavioral', 'resume']) + '_questions'
+        q = pop_q(eval(pop_from))
     elif qtype == 'gt':
         q = prompt_gpt('What is a common technical question during data science job interviews? Give me just the question and no extra text.')
     elif qtype == 'gb':
@@ -132,10 +135,36 @@ behavioral_questions = [
     'Tell me about the last time your workday ended before you were able to get everything done.'
 ]
 
+# these will be specific to my resume -- change them to interrogate bullet points from yours
+resume_questions = [
+    'Describe your experience with programming languages like Python and R.',
+    'Do you have experience working in a unix environment or bash scripting?',
+    'Describe your experience with SQL. How have you used it?',
+    'Describe your experience with Big Data tools like Databricks and PySpark.',
+    'How did you use exploratory data analysis and data visualization in your research?',
+    'What statistical tests have you used and why?',
+    'Tell me about your experience with machine learning.',
+    'How many years of experience do you have building data dashboards?',
+    'Have you collaborated on software projects with Git?',
+    'What is a neural network?',
+    'What is a convolutional neural network? Why did you use that type of model in your "Estimating Dispersal..." project?',
+    'What is multidimensional scaling? Why did you use it in your "Estimating Dispersal..." project?',
+    'How and why did you establish the collaboration with the bio group? What did either side have to gain?',
+    'What "relevant summary statistics" did you include in the simulations you designed? Why?',
+    'What did your simulation pipeline entail?',
+    'What did your data mining and analysis routines look like?',
+    'What statistical tests and procedures did you use to discover information in large datasets?',
+    'How did you go about learning new research tools and techniques?',
+    'What challenges did you face in sharing results and methods with colleagues?',
+    'What was novel about the measurement techniques you used in your explicit local dynamics project?',
+    'How did you capture breakdowns of simplified models of expanding populations?'
+]
+
 qstr = 'What type of question would you like? \n' \
 't -> technical question \n' \
 'b -> behavioral question \n' \
-'q -> random choice between list of technical and behavioral questions \n' \
+'res -> question based on something from my resume \n'\
+'q -> random choice between lists of technical, behavioral, and resume questions \n' \
 'gt -> request a common DS interview question from ChatGPT \n'\
 'gb -> request a common behavioral question from ChatGPT \n'\
 'gml -> request five common ML interview questions from ChatGPT \n'\
@@ -152,6 +181,7 @@ divstr = '\n' + '*' * 30 + '\n'
 
 shuffle(technical_questions)
 shuffle(behavioral_questions)
+shuffle(resume_questions)
 while True:
     qtype = input(qstr)
     q = serve_question(qtype)
