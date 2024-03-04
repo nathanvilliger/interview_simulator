@@ -11,9 +11,9 @@ Good luck!
 
 Simply run `python simulate.py` from the command line to enter the simulator. The application provides for two basic use patterns:
 
-- Single questions at a time, either drawn from the predefined lists of questions or provided by ChatGPT. I recommend drawing from the predefined lists for this use case since ChatGPT may repeat itself when given the same question prompt over and over.  
+- Single questions at a time drawn from the predefined lists of questions.  
 
-- Several questions in a row provided in one go by ChatGPT. The code is currently written to ask for a list of five questions at a time in this mode, but that number could easily be changed by changing the prompts in the calls to `prompt_gpt()` within the `serve_question()` function (specifically the calls where `return_list=True`).
+- Several questions in a row from ChatGPT. The code is currently written to ask for a list of five questions at a time in this mode, but that number could easily be changed by changing the prompts in the calls to `prompt_gpt()` within the `serve_question()` function (specifically the calls where `return_list=True`). (*Pro tip: quickly change the number of questions served by finding and replacing all instances of me having typed out 'five.'*)
 
 Note that the resume questions interrogate bullet points from my resume. You'll want to change those to make them relevant to you!
 
@@ -35,6 +35,6 @@ I've written this simulator to help me prepare for data science interviews, but 
 
 - Replace the predefined technical questions in the list `technical_questions` with questions that are relevant to your field.
 
-- Replace 'data science' with your job field in the prompt sent to ChatGPT by the `serve_question()` function when requesting a single technical interview question (when `qtype == 'gt'` in the function).
-
 - Replace the requests for lists of machine learning, stats/probability, and data science case study questions in the `serve_question()` function with requests for questions relevant to your field. Update the input codes and description in `qstr` as desired, making sure to update the input codes within `serve_question()` to match.
+
+- Again, don't forget to replace the questions about my resume with questions about your resume!

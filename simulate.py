@@ -70,10 +70,6 @@ def serve_question(qtype):
     elif qtype == 'q':
         pop_from = choice(['technical', 'behavioral', 'resume']) + '_questions'
         q = pop_q(eval(pop_from))
-    elif qtype == 'gt':
-        q = prompt_gpt('What is a common technical question during data science job interviews? Give me just the question and no extra text.')
-    elif qtype == 'gb':
-        q = prompt_gpt('What is a common behavioral question during job interviews? Give me just the question and no extra text.')
     elif qtype == 'gml':
         q = prompt_gpt('What are five common machine learning job interview questions? Return the questions in a python list with no additional text or formatting.', return_list=True)
     elif qtype == 'gstat':
@@ -165,8 +161,6 @@ qstr = 'What type of question would you like? \n' \
 'b -> behavioral question \n' \
 'res -> question based on something from my resume \n'\
 'q -> random choice between lists of technical, behavioral, and resume questions \n' \
-'gt -> request a common DS interview question from ChatGPT \n'\
-'gb -> request a common behavioral question from ChatGPT \n'\
 'gml -> request five common ML interview questions from ChatGPT \n'\
 'gstat -> request five common statistics and probability interview questions from ChatGPT \n'\
 'gcase -> request five common DS interview case study questions from ChatGPT \n'\
