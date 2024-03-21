@@ -1,0 +1,15 @@
+What is a p value?
+Why do ML models overfit? How can it be prevented?
+What was your PhD research about?
+Tell me about a time you used analytics in a previous project.
+What are the assumptions required for a linear regression?
+How do you handle a dataset missing several values?
+How do you explain technical aspects of your results to stakeholders with a non-technical background?
+What are the feature selection methods used to select the right variables for a machine learning model?
+How can you get rid of irrelevant or redundant features in a machine learning model?List the different types of relationships between tables in SQL.
+What is dimensionality reduction? Why would you do it?
+What is the goal of A/B Testing?
+Explain confidence intervals
+How do you manage an unbalanced dataset when training ML models?
+How do you evaluate the performance of a clustering model, where there are no known labels?
+There are four people in an elevator and four floors in a building. What is the probability that each person gets off on a different floor?

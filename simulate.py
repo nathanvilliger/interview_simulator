@@ -5,7 +5,7 @@ behavioral questions.
 Also include options to get questions and technical answers from ChatGPT using
 its API.
 '''
-from numpy.random import uniform, choice
+from numpy.random import choice
 from random import shuffle
 from sys import exit
 from subprocess import run
@@ -82,79 +82,14 @@ def serve_question(qtype):
 
     return q
 
-technical_questions = [
-    'What is a p value?',
-    'Why do ML models overfit? How can it be prevented?',
-    'What was your PhD research about?',
-    'Tell me about a time you used analytics in a previous project.',
-    'What are the assumptions required for a linear regression?',
-    'How do you handle a dataset missing several values?',
-    'How do you explain technical aspects of your results to stakeholders with '\
-    'a non-technical background?',
-    'What are the feature selection methods used to select the right variables for '\
-    'a machine learning model?',
-    'List the different types of relationships between tables in SQL.',
-    'What is dimensionality reduction? Why would you do it?',
-    'What is the goal of A/B Testing?',
-    'Explain confidence intervals',
-    'How do you manage an unbalanced dataset when training ML models?',
-    'How do you evaluate the performance of a clustering model, where there are '\
-    'no known labels?',
-    'There are four people in an elevator and four floors in a building. What is '\
-    'the probability that each person gets off on a different floor?'
-]
+with open('technical_questions.txt', 'r') as f:
+    technical_questions = [line.replace('\n', '') for line in f]
 
-behavioral_questions = [
-    'What is your biggest strength?',
-    'What is your biggest weakness?',
-    'Tell me about a time when you had to explain a complex data concept ' \
-    'to someone without a technical background. How did you ensure they understood?',
-    'Describe a project where you had to work with a difficult team member. '\
-    'How did you handle the situation?',
-    'Can you share an example of a time when you had to work under a tight deadline? '\
-    'How did you manage your tasks and deliver on time?',
-    'Have you ever made a significant mistake in your analysis? How did you handle it '\
-    'and what did you learn from it?',
-    'How do you stay updated with the latest trends and advancements in data science?',
-    'Can you tell us about a time when you had to work on a project with unclear or '\
-    'constantly changing requirements? How did you adapt?',
-    'Tell me about a time when you worked as part of a team to successfully execute a project.',
-    'What is a project that you are most proud of?',
-    'Tell me about a time you failed.',
-    'Tell me about a time when you demonstrated leadership.',
-    'Have you ever had to make an unpopular decision? How did you handle it?',
-    'Describe a time when you were under a lot of pressure at work. How did you react?',
-    'Tell me about a mistake you have made. How did you handle it?',
-    'Explain a situation where you used data or logic to make a recommendation.',
-    'Describe a time when you had to deliver bad news. How did you do it?',
-    'Share an example of a time when you failed. What did you learn from the experience?',
-    'Tell me about the last time your workday ended before you were able to get everything done.'
-]
+with open('behavioral_questions.txt', 'r') as f:
+    behavioral_questions = [line.replace('\n', '') for line in f]
 
-# these will be specific to my resume -- change them to interrogate bullet points from yours
-resume_questions = [
-    'Describe your experience with programming languages like Python and R.',
-    'Do you have experience working in a unix environment or bash scripting?',
-    'Describe your experience with SQL. How have you used it?',
-    'Describe your experience with Big Data tools like Databricks and PySpark.',
-    'How did you use exploratory data analysis and data visualization in your research?',
-    'What statistical tests have you used and why?',
-    'Tell me about your experience with machine learning.',
-    'How many years of experience do you have building data dashboards?',
-    'Have you collaborated on software projects with Git?',
-    'What is a neural network?',
-    'What is a convolutional neural network? Why did you use that type of model in your "Estimating Dispersal..." project?',
-    'What is multidimensional scaling? Why did you use it in your "Estimating Dispersal..." project?',
-    'How and why did you establish the collaboration with the bio group? What did either side have to gain?',
-    'What "relevant summary statistics" did you include in the simulations you designed? Why?',
-    'What did your simulation pipeline entail?',
-    'What did your data mining and analysis routines look like?',
-    'What statistical tests and procedures did you use to discover information in large datasets?',
-    'How did you go about learning new research tools and techniques?',
-    'What challenges did you face in sharing results and methods with colleagues?',
-    'What was novel about the measurement techniques you used in your explicit local dynamics project?',
-    'How did you capture breakdowns of simplified models of expanding populations?'
-]
+with open('resume_questions.txt', 'r') as f:
+    resume_questions = [line.replace('\n', '') for line in f]
 
 qstr = 'What type of question would you like? \n' \
 't -> technical question \n' \
@@ -192,7 +127,7 @@ while True:
             if request_answer == 'y':
                 print('\n')
                 print(prompt_gpt('Provide a sample answer to the following question: ' + question))
-                _ = input('\nPress any key to continue. ')
+                _ = input('\nPress enter to continue. ')
     else:
         # must have requested a single question from predefined lists or ChatGPT
         run('clear')
