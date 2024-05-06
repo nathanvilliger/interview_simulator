@@ -15,9 +15,6 @@ Simply run `python simulate.py` from the command line to enter the simulator. Th
 
 - Several questions in a row from ChatGPT. The code is currently written to ask for a list of five questions at a time in this mode, but that number could easily be changed by changing the prompts in the calls to `prompt_gpt()` within the `serve_question()` function (specifically the calls where `return_list=True`). (*Pro tip: quickly change the number of questions served by finding and replacing all instances of me having typed out 'five.'*)
 
-Watch the video for an example of drawing a single question and requesting a sample answer from ChatGPT.  
-![video](video/simulator_sample_small_window.mov)
-
 You can modify the `*_questions.txt` files to make them more specific to you; in particular, definitely add a bunch of questions to `resume_questions.txt` that interrogate the things you claim to know in your resume. Just be sure to only write one question per line in any file so that the python script can correctly parse the questions you've added.  
 (*See below for a tip if you want git to ignore the modifications you make.*) 
 
@@ -47,6 +44,6 @@ I've written this simulator to help me prepare for data science interviews, but 
 
 Here's a method for including files in a repo that are intended to be changed, but you *don't* want the changes to show up every time you run `git status` nor do you want changes to be accidentally overwritten by a future `git pull`. You can run  
 `git update-index --skip-worktree <filename>`  
-to make git act as if the file has not been modified even if it has been. I found the method on [this](https://stackoverflow.com/questions/13630849/git-difference-between-assume-unchanged-and-skip-worktree#) Stack Overflow page, and you can read directly from the git documentation [here](https://git-scm.com/docs/git-update-index#:~:text=skip%2Dworktree%20tells%20Git%20to,absence%20be%20recorded%20in%20commits.)
+to make git act as if the file has not been modified even if it has been. I found this method on [this](https://stackoverflow.com/questions/13630849/git-difference-between-assume-unchanged-and-skip-worktree#) Stack Overflow page, and you can read directly from the git documentation [here](https://git-scm.com/docs/git-update-index#:~:text=skip%2Dworktree%20tells%20Git%20to,absence%20be%20recorded%20in%20commits.)
 
 I ran this command for two files: `chatgpt_api_key.txt` and `resume_questions.txt`. I wanted to include skeleton versions of each file in the Github repo, but both are intended to be changed upon a user cloning the repo. Using the command means I don't accidentally commit and push my personal API key or questions that are specific to my resume. It also prevents those modified files from annoyingly showing up as having been modified every time I run `git status`.
