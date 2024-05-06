@@ -14,8 +14,8 @@ from openai import OpenAI
 with open('chatgpt_api_key.txt') as f:
     api_key = f.readline().strip('\n')
 
-print('api key is', api_key)
-print('\n')
+# print('api key is', api_key, '\n')
+print('\nWelcome to the interview simulator! \n')
 client = OpenAI(api_key=api_key)
 model = 'gpt-3.5-turbo'
 
