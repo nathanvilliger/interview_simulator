@@ -15,6 +15,10 @@ Simply run `python simulate.py` from the command line to enter the simulator. Th
 
 - Several questions in a row from ChatGPT. The code is currently written to ask for a list of five questions at a time in this mode, but that number could easily be changed by changing the prompts in the calls to `prompt_gpt()` within the `serve_question()` function (specifically the calls where `return_list=True`). (*Pro tip: quickly change the number of questions served by finding and replacing all instances of me having typed out 'five.'*)
 
+Check out the video for an example of drawing a question from a predefined list and requesting a sample answer from ChatGPT. 
+
+[![asciicast](https://asciinema.org/a/q62zMwWvFVcwFpK2VNX6jB39l.svg)](https://asciinema.org/a/q62zMwWvFVcwFpK2VNX6jB39l)
+
 You can modify the `*_questions.txt` files to make them more specific to you; in particular, definitely add a bunch of questions to `resume_questions.txt` that interrogate the things you claim to know in your resume. Just be sure to only write one question per line in any file so that the python script can correctly parse the questions you've added.  
 (*See below for a tip if you want git to ignore the modifications you make.*) 
 
