@@ -14,8 +14,7 @@ from openai import OpenAI
 with open('chatgpt_api_key.txt') as f:
     api_key = f.readline().strip('\n')
 
-print('api key is', api_key)
-print('\n')
+# print('api key is', api_key, '\n')
 client = OpenAI(api_key=api_key)
 model = 'gpt-3.5-turbo'
 
@@ -75,7 +74,7 @@ def serve_question(qtype):
     elif qtype == 'gstat':
         q = prompt_gpt('What are five common job interview questions about statistics and probability? Return the questions in a python list with no additional text or formatting.', return_list=True) 
     elif qtype == 'gcase':
-        q = prompt_gpt('What are five common case study questions during data science job interviews? Return the questions in a python list with no additional text or formatting.', return_list=True)
+        q = prompt_gpt('What are five common product sense questions during data science job interviews at social media companies? Return the questions in a python list with no additional text or formatting.', return_list=True)
     else:
         print('Exiting now. \n')
         exit()
@@ -98,7 +97,7 @@ qstr = 'What type of question would you like? \n' \
 'q -> random choice between lists of technical, behavioral, and resume questions \n' \
 'gml -> request five common ML interview questions from ChatGPT \n'\
 'gstat -> request five common statistics and probability interview questions from ChatGPT \n'\
-'gcase -> request five common DS interview case study questions from ChatGPT \n'\
+'gcase -> request five common DS interview product sense questions from ChatGPT \n'\
 'any other key -> exit the simulator \n'
 
 nextprompt = 'What would you like to do next? \n' \
@@ -111,40 +110,42 @@ divstr = '\n' + '*' * 30 + '\n'
 shuffle(technical_questions)
 shuffle(behavioral_questions)
 shuffle(resume_questions)
-while True:
-    qtype = input(qstr)
-    q = serve_question(qtype)
-    if q is None:
-        # list of questions from ChatGPT was poorly formatted
-        continue
-    elif type(q) is list:
-        # list of questions from ChatGPT was good
-        for i, question in enumerate(q):
+if __name__ == '__main__':
+    print('\nWelcome to the interview simulator! \n')
+    while True:
+        qtype = input(qstr)
+        q = serve_question(qtype)
+        if q is None:
+            # list of questions from ChatGPT was poorly formatted
+            continue
+        elif type(q) is list:
+            # list of questions from ChatGPT was good
+            for i, question in enumerate(q):
+                run('clear')
+                print(f'{i+1}. {question}')
+                print(divstr)
+                request_answer = input('Would you like to request a sample answer from ChatGPT? y/n \n')
+                if request_answer == 'y':
+                    print('\n')
+                    print(prompt_gpt('Provide a sample answer to the following question: ' + question))
+                    _ = input('\nPress enter to continue. ')
+        else:
+            # must have requested a single question from predefined lists or ChatGPT
             run('clear')
-            print(f'{i+1}. {question}')
+            print(q)
             print(divstr)
-            request_answer = input('Would you like to request a sample answer from ChatGPT? y/n \n')
-            if request_answer == 'y':
-                print('\n')
-                print(prompt_gpt('Provide a sample answer to the following question: ' + question))
-                _ = input('\nPress enter to continue. ')
-    else:
-        # must have requested a single question from predefined lists or ChatGPT
-        run('clear')
-        print(q)
-        print(divstr)
 
-        next_step = input(nextprompt)
-        if next_step == 'a':
-            print(divstr)
-            print(prompt_gpt('Provide a sample answer to the following question: ' + q))
-            print(divstr)
-            new_next = input('Would you like another question? y/n \n')
-            if new_next != 'y':
+            next_step = input(nextprompt)
+            if next_step == 'a':
+                print(divstr)
+                print(prompt_gpt('Provide a sample answer to the following question: ' + q))
+                print(divstr)
+                new_next = input('Would you like another question? y/n \n')
+                if new_next != 'y':
+                    print('Goodbye and good luck.')
+                    exit()
+            elif next_step != 'q':
                 print('Goodbye and good luck.')
                 exit()
-        elif next_step != 'q':
-            print('Goodbye and good luck.')
-            exit()
-        else:
-            print(divstr)
+            else:
+                print(divstr)

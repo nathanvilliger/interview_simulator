@@ -13,6 +13,8 @@ Simply run `python simulate.py` from the command line to enter the simulator. Th
 
 - Single questions at a time drawn from the predefined lists of questions stored in the `*_questions.txt` files.  
 
+    - Or get several questions in a row from any combination of those predefined lists by using `pop_several.py`! See the documentation at the top of the script or run it with the `--help` flag to see required command line arguments.
+
 - Several questions in a row from ChatGPT. The code is currently written to ask for a list of five questions at a time in this mode, but that number could easily be changed by changing the prompts in the calls to `prompt_gpt()` within the `serve_question()` function (specifically the calls where `return_list=True`). (*Pro tip: quickly change the number of questions served by finding and replacing all instances of me having typed out 'five.'*)
 
 Check out the video for an example of drawing a question from a predefined list and requesting a sample answer from ChatGPT. 
